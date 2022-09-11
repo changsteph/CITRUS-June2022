@@ -1,19 +1,26 @@
 import numpy as np
 import pandas as pd
+import re
 
 
-def clean_raw_wind_data():
-    wind_file = "Hawaii_Winds_Speed_1990_2021.csv"
-    wind_speed_table = pd.read_csv(wind_file, index_col=0)
+def get_date_columns(file):
+    # wind_file = "Hawaii_Winds_Speed_1990_2021.csv"
+    table = pd.read_csv(file, index_col=0)
 
-    column_names = list(wind_speed_table.columns)
-    column_names = column_names[5:]
+    # Create a list of all the columns names that contain dates
+    date_list = []
+    for name in list(table.columns):
+        if re.findall('\d+', name):
+            date_list.append(name)
 
-    for i in range(len(column_names)):
-        wind_speed_table.loc[(wind_speed_table[column_names[i]] < 0) | (wind_speed_table[column_names[i]] > 49),
-                             column_names[i]] = np.NaN
 
-    wind_speed_table.to_csv(r"CleanedWindSpeeds.csv", na_rep='NA')
+def remove_extreme_values(column_list, table, max_value, min_value, new_name):
+    # TODO: Find way to document extreme values (in text file?)
+    for column in column_list:
+        table.loc[(table[column] < min_value) | (table[column] > max_value), column] = np.NaN
+
+    # Write the new table (without extreme values to a new csv file)
+    table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
 
 
 def clean_selected_wind_data():
@@ -91,4 +98,5 @@ def consolidate_months(table):
     # bi_dataframes[16].to_csv(r"912-KAUHUKU.csv", na_rep='NA')
 
 
-clean_selected_wind_data()
+
+# clean_selected_wind_data()
