@@ -118,3 +118,37 @@ file2.close()
 #     file2.write(str(all_data[str(wind_skn[i])]) + "\n\n")
 #
 # file2.close()
+
+# for column in column_list:
+#     table.loc[(table[column] < min_value) | (table[column] > max_value), column] = np.NaN
+# selected_table = selected_table.dropna(how='all', axis=1)
+
+def consolidate_months(table):
+    column_names = table.columns
+    column_names = column_names[5:]
+    month_columns = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    table_skn = list(table.index)
+    data_dict = {}
+    bi_dataframes = []
+
+    # Go through each row in the table
+    for index, row in table.iterrows():
+        months = [[], [], [], [], [], [], [], [], [], [], [], []]
+        # Go through each wind speed column in the row
+        for i in range(len(column_names)):
+            if not pd.isnull(row[column_names[i]]):
+                num = int(column_names[i][5:])
+                months[num - 1].append(row[column_names[i]])
+
+        max_num = 0
+        for k in range(len(months)):
+            max_num = max(len(months[k]), max_num)
+        for m in range(len(months)):
+            while len(months[m]) < max_num:
+                months[m].append(np.nan)
+        for j in range(len(month_columns)):
+            data_dict[month_columns[j]] = months[j]
+        save_data = pd.DataFrame(data_dict)
+        bi_dataframes.append(save_data)
+
+    print(len(bi_dataframes))
