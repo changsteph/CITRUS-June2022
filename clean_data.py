@@ -15,11 +15,12 @@ def clean_table(file_name, max_value, min_value, new_name):
             column_list.append(name)
 
     table_info = {}
+    # Remove extreme values, count types of data points
     for index, row in table.iterrows():
         extreme_values = 0
         null_values = 0
         valid_points = 0
-        for num, column in enumerate(column_list):
+        for column in column_list:
             value = row[column]
             if pd.isnull(value):
                 null_values += 1
@@ -34,6 +35,7 @@ def clean_table(file_name, max_value, min_value, new_name):
                 "null values": null_values
             }
 
+    # Write table info to a text file
     file1 = open("{}_Info.txt".format(new_name), "w")
     file1.write("Table Data Information\n")
     for index in index_names:
