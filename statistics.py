@@ -1,6 +1,3 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 from scipy.stats import shapiro
 
 # index = 2

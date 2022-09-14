@@ -252,3 +252,4 @@ for i, w_value in enumerate(all_temp_dicts):
 # plt.grid(True)
 # plt.savefig("MeanWindSpeeds.png")
 # plt.show()
+
