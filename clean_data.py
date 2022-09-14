@@ -3,14 +3,23 @@ import pandas as pd
 import re
 
 
-def clean_table(file_name, max_value, min_value, new_name):
+def clean_table(file_name: str, max_value: float, min_value: float, new_name: str):
+    """
+    Removes values outside the range given by turning them into NaN.
+    Creates a text file with the count of valid values, null values and extreme values
+    (outside the given range) for each row in the table.
+    :param file_name: name of the file to open
+    :param max_value: max value(inclusive) of the column values
+    :param min_value: min value(inclusive) of the column values
+    :param new_name: new name of the cleaned table
+    """
     table = pd.read_csv(file_name, index_col=0)
 
     index_names = list(table.index)
     # Create a list of all the columns names that contain dates
     column_list = []
     for name in list(table.columns):
-        item = re.findall('\d+', name)
+        item = re.match('\d+', name)
         if item:
             column_list.append(name)
 
