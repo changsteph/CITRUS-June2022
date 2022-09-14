@@ -57,13 +57,5 @@ def clean_table(file_name: str, max_value: float, min_value: float, new_name: st
     table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
 
 
-def split_table(table, column_name: str):
-    categories = table[column_name].tolist()
-    categories = set(categories)
-    new_tables = []
-    for category in categories:
-        new_tables.append(table[table[column_name]] == category)
-
-
 wind_file = "/TestFiles/Hawaii_Winds_Speed_1990_2021.csv"
 clean_table(wind_file, 49, 0, "CleanedWindSpeed1990_2021")
