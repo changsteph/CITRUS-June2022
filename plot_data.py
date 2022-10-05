@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import geopandas as gpd
 
 
-def box_plot(data):
+def box_plot(data, title: str, x_label: str, y_label: str):
     colors = ['magenta', 'green', 'blue', 'purple']
-    for i, w_value in enumerate(all_temp_dicts):
+    for i, w_value in enumerate(data):
         fig, ax = plt.subplots()
         bp = ax.boxplot(w_value.values(), patch_artist=True)
 
@@ -16,24 +16,11 @@ def box_plot(data):
         patch.set(facecolor=colors[i], alpha=0.5)
 
     ax.set_ylim(top=18, bottom=30)
-    # ax.set_xlabel("Months")
-    ax.set_ylabel("Temperature (C)")
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
     ax.set_xticklabels(w_value.keys(), rotation=45)
-    ax.set_title(temp_station_names[i])
+    ax.set_title(title)
 
-    plt.plot(temp_mean_list[i], color='black', marker="o",
-             linestyle="dashed", markersize=3, alpha=0.5)
-    # for j, value in enumerate(temp_mean_list[i]):
-    #     plt.annotate(str(round(value, 3)), (j, value + 0.05))
-
-    plt.xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-    plt.ylim(bottom=18, top=30)
-    plt.xlabel("Months", fontsize=15)
-    # plt.ylabel("Temperature (C)", fontsize=15)
-    # plt.title("Mean Oahu Temperatures", fontsize=25)
-    # plt.legend(["703 HNL", "840 Kaneohe Bay", "841.16 Camp Erdman", "901.1 Kii"], title="Stations", loc='upper left')
-
-    plt.savefig(temp_station_names[i] + "LinePlot.png", bbox_inches="tight")
     plt.clf()
     # file1 = open("TemperatureBoxPlotData.txt", "w")
     # for j in range(len(all_temp_dicts)):

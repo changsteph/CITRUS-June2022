@@ -57,9 +57,10 @@ def select_by_index(table, index):
     months_names = ["01-January", "02-February", "03-March", "04-April", "05-May", "06-June", "07-July", "08-August",
                     "09-September", "10-October", "11-November", "12-December"]
     new_table = pd.DataFrame(np.array(table_values), columns=months_names, index=year_list)
-    new_name = str(index) + "-Monthly Averages"
-    new_table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
+    return new_table
+    # new_name = str(index) + "-Monthly Averages"
+    # new_table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
 
 
-wind_table = pd.read_csv("AverageWindSpeeds.csv", index_col=0)
-select_by_index(wind_table, 39)
+# wind_table = pd.read_csv("AverageWindSpeeds.csv", index_col=0)
+# select_by_index(wind_table, 39)

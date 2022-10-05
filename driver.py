@@ -1,4 +1,5 @@
 import pandas as pd
+import clean_data as clean
 
 
 class DataTable:

@@ -43,22 +43,18 @@ def check_leap_year(year: int) -> bool:
     return False
 
 
-def aggregate_table(file_name: str, new_name: str, valid_percentage: int):
+def aggregate_table(table, new_name: str, valid_percentage: int):
     """
     Takes the values and finds the average for each month.
     The averages are only created if the number of days per month with non-null values is
     greater or equal to the valid_percentage given, otherwise it will be NaN for that month.
     The new values are written to a csv file and includes the other information columns
     (ones that do not contain a date).
-    :param file_name: name of the file to open
+    :param table: table to get values from
     :param new_name: name of the new file (with averages)
     :param valid_percentage: (0 - 1.0) borderline ratio of non-null days per month
     """
-    # No file entered
-    if not file_name:
-        return
-    table = pd.read_csv(file_name, index_col=0)
-    # Empty table
+    # No table given
     if not table:
         return
     index_names = list(table.index)
@@ -119,8 +115,7 @@ def aggregate_table(file_name: str, new_name: str, valid_percentage: int):
     new_frame = pd.DataFrame(np.array(new_table), columns=column_names, index=index_names)
     info_table = table.filter(items=info_columns)
     average_table = pd.concat([info_table, new_frame], axis=1)
+    return average_table
     # Write the new table (without extreme values to a new csv file)
-    average_table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
+    # average_table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
 
-
-aggregate_table("CleanedWindSpeed1990_2021.csv", "AverageWindSpeeds", 0.75)

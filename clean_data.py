@@ -3,17 +3,16 @@ import pandas as pd
 import re
 
 
-def clean_table(file_name: str, max_value: float, min_value: float, new_name: str):
+def clean_table(table, max_value: float, min_value: float, new_name: str):
     """
     Removes values outside the range given by turning them into NaN.
     Creates a text file with the count of valid values, null values and extreme values
     (outside the given range) for each row in the table.
-    :param file_name: name of the file to open
+    :param table: table to get values from
     :param max_value: max value(inclusive) of the column values
     :param min_value: min value(inclusive) of the column values
     :param new_name: new name of the cleaned table
     """
-    table = pd.read_csv(file_name, index_col=0)
 
     index_names = list(table.index)
     # Create a list of all the columns names that contain dates
@@ -44,18 +43,19 @@ def clean_table(file_name: str, max_value: float, min_value: float, new_name: st
                 "null values": null_values
             }
 
-    # Write table info to a text file
-    file1 = open("{}_Info.txt".format(new_name), "w")
-    file1.write("Table Data Information\n")
-    for index in index_names:
-        file1.write(str(index) + ":\n")
-        file1.write(str(table_info.get(index, "No info found")) + "\n\n")
+    return table
 
-    file1.close()
+    # Write table info to a text file
+    # file1 = open("{}_Info.txt".format(new_name), "w")
+    # file1.write("Table Data Information\n")
+    # for index in index_names:
+    #     file1.write(str(index) + ":\n")
+    #     file1.write(str(table_info.get(index, "No info found")) + "\n\n")
+    #
+    # file1.close()
 
     # Write the new table (without extreme values to a new csv file)
-    table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
+    # table.to_csv(r"{}.csv".format(new_name), na_rep='NA')
 
+# wind_file = "/TestFiles/Hawaii_Winds_Speed_1990_2021.csv"
 
-wind_file = "/TestFiles/Hawaii_Winds_Speed_1990_2021.csv"
-clean_table(wind_file, 49, 0, "CleanedWindSpeed1990_2021")
